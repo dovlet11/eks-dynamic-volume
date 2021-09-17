@@ -394,7 +394,6 @@ service/db-service created
 deployment.apps/web-deployment created
 service/web-service created
 ```
-Note that we can use `directory` with `kubectl apply -f` command.
 
 - Check the pods.
 ```bash
