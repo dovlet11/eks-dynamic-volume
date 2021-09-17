@@ -159,11 +159,11 @@ gp2 (default)            kubernetes.io/aws-ebs   Delete          WaitForFirstCon
 - Create a persistentvolumeclaim with the following settings and show that new volume is created on aws management console.
 
 ```bash
-$ cat clarus-pv-claim.yaml
+$ cat dj-pv-claim.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: clarus-pv-claim
+  name: dj-pv-claim
 spec:
   accessModes:
     - ReadWriteOnce
@@ -174,8 +174,8 @@ spec:
 ```
 
 ```bash
-$ kubectl apply -f clarus-pv-claim.yaml
-persistentvolumeclaim/clarus-pv-claim created
+$ kubectl apply -f dj-pv-claim.yaml
+persistentvolumeclaim/dj-pv-claim created
 ```
 
 - List the pv and pvc connections.
@@ -183,10 +183,10 @@ persistentvolumeclaim/clarus-pv-claim created
 ```bash
 $ kubectl get pv
 NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                     STORAGECLASS   REASON   AGE
-pvc-1cd62230-2c0f-4678-b743-837291dcd61c   3Gi        RWO            Delete           Bound    default/clarus-pv-claim   aws-standard            12s
+pvc-1cd62230-2c0f-4678-b743-837291dcd61c   3Gi        RWO            Delete           Bound    default/dj-pv-claim   aws-standard            12s
 $ kubectl get pvc
 NAME              STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-clarus-pv-claim   Bound    pvc-1cd62230-2c0f-4678-b743-837291dcd61c   3Gi        RWO            aws-standard   2m19s
+dj-pv-claim   Bound    pvc-1cd62230-2c0f-4678-b743-837291dcd61c   3Gi        RWO            aws-standard   2m19s
 ```
 
 - Create a pod with the following settings.
@@ -211,7 +211,7 @@ spec:
   volumes:
   - name: aws-pd
     persistentVolumeClaim:
-      claimName: clarus-pv-claim
+      claimName: dj-pv-claim
 ```
 
 ```bash
@@ -260,15 +260,6 @@ $ kubectl delete -f dynamic-storage-aws.yaml
 
 ## Part 4 - Ingress
 
-> - Download the lesson folder from "https://github.com/clarusway/clarusway-aws-devops-1-20/tree/master/aws/hands-on/eks-02-DynamicVolumeProvisionining-and-Ingress".
-
-```bash
-$ mkdir ingress
-$ cd ingress/
-$ TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-$ FOLDER="https://$TOKEN@raw.githubusercontent.com/clarusway/clarusway-aws-devops-1-20/master/aws/hands-on/eks-02-DynamicVolumeProvisionining-and-Ingress/"
-$ curl -s --create-dirs -o "$HOME/ingress/ingress.tar.gz" -L "$FOLDER"ingress-yaml-files.tar.gz
-$ tar -xvf ingress.tar.gz
 ```
 
 The directory structure is as follows:
@@ -377,7 +368,7 @@ spec:
         app: todoapp
     spec:
       containers: 
-        - image: clarusways/todo
+        - image: djways/todo
           imagePullPolicy: Always
           name: myweb
           ports: 
